@@ -1,0 +1,506 @@
+{
+  "Science": {
+    "substreams": [
+      {
+        "name": "PCMB",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "Medical",
+            "type": "stream",
+            "eligibility": "PCB/PCMB 50%+",
+            "marks_required": 50,
+            "next_steps": [
+              {
+                "name": "MBBS",
+                "type": "degree",
+                "eligibility": "NEET UG",
+                "marks_required": 60,
+                "average_cost_range": "₹10L-1Cr",
+                "budget_min": 1000000,
+                "top_colleges": ["AIIMS Delhi", "CMC Vellore", "JIPMER", "Maulana Azad Medical College"],
+                "entrance_exams": ["NEET UG"],
+                "career_outcomes": ["Doctor", "Surgeon", "Specialist MD/MS"]
+              },
+              {
+                "name": "BDS",
+                "type": "degree",
+                "eligibility": "NEET UG",
+                "marks_required": 50,
+                "average_cost_range": "₹5L-50L",
+                "budget_min": 500000,
+                "top_colleges": ["Manipal College of Dental Sciences", "Saveetha Dental", "KLE Dental College"],
+                "entrance_exams": ["NEET UG"],
+                "career_outcomes": ["Dentist", "Orthodontist", "Oral Surgeon"]
+              },
+              {
+                "name": "BAMS/BHMS",
+                "type": "degree",
+                "eligibility": "NEET UG",
+                "marks_required": 45,
+                "average_cost_range": "₹2L-15L",
+                "budget_min": 200000,
+                "top_colleges": ["BHU Varanasi", "Gujarat Ayurved University", "SDM Ayurveda"],
+                "entrance_exams": ["NEET UG"],
+                "career_outcomes": ["Ayurvedic Doctor", "Homeopath", "Naturopathist"]
+              }
+            ]
+          },
+          {
+            "name": "Engineering",
+            "type": "stream",
+            "eligibility": "PCM 60%+",
+            "marks_required": 60,
+            "next_steps": [
+              {
+                "name": "BTech CSE",
+                "type": "degree",
+                "eligibility": "JEE Main/Advanced",
+                "marks_required": 70,
+                "average_cost_range": "₹5L-20L",
+                "budget_min": 500000,
+                "top_colleges": ["IIT Bombay", "IIT Delhi", "BITS Pilani", "NIT Trichy"],
+                "entrance_exams": ["JEE Main", "JEE Advanced", "BITSAT"],
+                "career_outcomes": ["Software Engineer", "Data Scientist", "Product Manager"]
+              },
+              {
+                "name": "BTech ECE",
+                "type": "degree",
+                "eligibility": "JEE Main",
+                "marks_required": 65,
+                "average_cost_range": "₹4L-15L",
+                "budget_min": 400000,
+                "top_colleges": ["IIT Madras", "NIT Trichy", "BITS Goa", "VIT Vellore"],
+                "entrance_exams": ["JEE Main", "KCET", "COMEDK"],
+                "career_outcomes": ["Embedded Systems", "VLSI Design", "Telecom Engineer"]
+              },
+              {
+                "name": "BTech Mechanical",
+                "type": "degree",
+                "eligibility": "JEE Main",
+                "marks_required": 60,
+                "average_cost_range": "₹4L-12L",
+                "budget_min": 400000,
+                "top_colleges": ["IIT Kanpur", "VIT Vellore", "NIT Surathkal", "BMS College"],
+                "entrance_exams": ["JEE Main", "COMEDK", "KCET"],
+                "career_outcomes": ["Automotive Engineer", "Manufacturing Engineer", "Design Engineer"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "PCM",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "Engineering",
+            "type": "stream",
+            "eligibility": "PCM 60%+",
+            "marks_required": 60,
+            "next_steps": [
+              {
+                "name": "BTech Civil",
+                "type": "degree",
+                "eligibility": "JEE Main",
+                "marks_required": 55,
+                "average_cost_range": "₹3L-10L",
+                "budget_min": 300000,
+                "top_colleges": ["IIT Roorkee", "NIT Surathkal", "RVCE Bangalore", "PES University"],
+                "entrance_exams": ["JEE Main", "KCET", "COMEDK"],
+                "career_outcomes": ["Structural Engineer", "Project Manager", "Urban Planner"]
+              },
+              {
+                "name": "BTech Electrical",
+                "type": "degree",
+                "eligibility": "JEE Main",
+                "marks_required": 60,
+                "average_cost_range": "₹4L-12L",
+                "budget_min": 400000,
+                "top_colleges": ["IIT Kharagpur", "NIT Warangal", "MSRIT Bangalore"],
+                "entrance_exams": ["JEE Main", "KCET"],
+                "career_outcomes": ["Power Systems Engineer", "Control Systems", "Energy Consultant"]
+              }
+            ]
+          },
+          {
+            "name": "Architecture",
+            "type": "degree",
+            "eligibility": "NATA",
+            "marks_required": 50,
+            "average_cost_range": "₹5L-15L",
+            "budget_min": 500000,
+            "top_colleges": ["SPA Delhi", "CEPT Ahmedabad", "BMS Bangalore", "RVCA Bangalore"],
+            "entrance_exams": ["NATA", "JEE Paper 2"],
+            "career_outcomes": ["Architect", "Urban Planner", "Interior Designer"]
+          },
+          {
+            "name": "BSc Mathematics",
+            "type": "degree",
+            "eligibility": "PCM 55%+",
+            "marks_required": 55,
+            "average_cost_range": "₹50K-3L",
+            "budget_min": 50000,
+            "top_colleges": ["IISc Bangalore", "St. Stephen's Delhi", "Presidency Kolkata"],
+            "entrance_exams": ["CUET", "IISc BS Entrance"],
+            "career_outcomes": ["Data Analyst", "Actuary", "Research Scientist"]
+          }
+        ]
+      },
+      {
+        "name": "PCB",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "Medical Allied",
+            "type": "stream",
+            "eligibility": "PCB 50%+",
+            "marks_required": 50,
+            "next_steps": [
+              {
+                "name": "BSc Nursing",
+                "type": "degree",
+                "eligibility": "12th PCB",
+                "marks_required": 45,
+                "average_cost_range": "₹2L-8L",
+                "budget_min": 200000,
+                "top_colleges": ["AIIMS Nursing", "CMC Nursing", "Manipal Nursing", "KMC Manipal"],
+                "entrance_exams": ["AIIMS Nursing", "NEET", "Institution-specific"],
+                "career_outcomes": ["Staff Nurse", "Nurse Practitioner", "ICU Nurse"]
+              },
+              {
+                "name": "BPT/BOT",
+                "type": "degree",
+                "eligibility": "12th PCB",
+                "marks_required": 50,
+                "average_cost_range": "₹3L-10L",
+                "budget_min": 300000,
+                "top_colleges": ["Manipal University", "SRM Chennai", "JSS Mysore"],
+                "entrance_exams": ["NEET", "Karnataka Allied Health Entrance", "Institute exams"],
+                "career_outcomes": ["Physiotherapist", "Occupational Therapist", "Sports Physiotherapist"]
+              },
+              {
+                "name": "BSc MLT",
+                "type": "degree",
+                "eligibility": "12th PCB",
+                "marks_required": 45,
+                "average_cost_range": "₹1.5L-6L",
+                "budget_min": 150000,
+                "top_colleges": ["AIIMS", "CMC Vellore", "JIPMER Labs"],
+                "entrance_exams": ["Institution-specific", "State CET"],
+                "career_outcomes": ["Lab Technician", "Pathologist Assistant", "Medical Researcher"]
+              }
+            ]
+          },
+          {
+            "name": "Biotechnology",
+            "type": "degree",
+            "eligibility": "PCB/PCMB",
+            "marks_required": 55,
+            "average_cost_range": "₹3L-12L",
+            "budget_min": 300000,
+            "top_colleges": ["IIT Kharagpur", "Amity University", "Manipal University"],
+            "entrance_exams": ["JEE Main", "Institute exams", "CUET"],
+            "career_outcomes": ["Research Scientist", "Biotech Engineer", "Pharmaceutical Scientist"]
+          },
+          {
+            "name": "BSc Agriculture",
+            "type": "degree",
+            "eligibility": "PCB/PCM 50%+",
+            "marks_required": 50,
+            "average_cost_range": "₹1L-5L",
+            "budget_min": 100000,
+            "top_colleges": ["IARI Delhi", "UAS Bangalore", "GBPUAT Uttarakhand"],
+            "entrance_exams": ["ICAR AIEEA", "State Agriculture CET"],
+            "career_outcomes": ["Agricultural Officer", "Agronomist", "Food Technologist"]
+          }
+        ]
+      }
+    ]
+  },
+  "Commerce": {
+    "substreams": [
+      {
+        "name": "Accounts+Economics",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "CA Foundation",
+            "type": "exam",
+            "eligibility": "12th Commerce",
+            "marks_required": 50,
+            "average_cost_range": "₹50K-2L",
+            "budget_min": 50000,
+            "top_colleges": ["ICAI Chapters"],
+            "entrance_exams": ["CA Foundation"],
+            "next_steps": [
+              {
+                "name": "CA Intermediate",
+                "type": "exam",
+                "eligibility": "CA Foundation clear",
+                "marks_required": 50,
+                "average_cost_range": "₹1L-3L",
+                "budget_min": 100000,
+                "top_colleges": ["ICAI Chapters"],
+                "entrance_exams": ["CA Intermediate"],
+                "next_steps": [
+                  {
+                    "name": "CA Final",
+                    "type": "exam",
+                    "eligibility": "2.5 yrs articleship",
+                    "marks_required": 50,
+                    "average_cost_range": "₹2L-4L",
+                    "budget_min": 200000,
+                    "top_colleges": ["ICAI"],
+                    "entrance_exams": ["CA Final"],
+                    "career_outcomes": ["Chartered Accountant", "Audit Manager", "Tax Consultant", "CFO"]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "BCom Honours",
+            "type": "degree",
+            "eligibility": "12th Commerce 60%",
+            "marks_required": 60,
+            "average_cost_range": "₹1L-5L",
+            "budget_min": 100000,
+            "top_colleges": ["SRCC Delhi", "Loyola Chennai", "St. Xavier's Mumbai", "Christ University"],
+            "entrance_exams": ["CUET"],
+            "career_outcomes": ["Accountant", "Financial Analyst", "Tax Executive"]
+          },
+          {
+            "name": "BBA Finance",
+            "type": "degree",
+            "eligibility": "12th Commerce 50%+",
+            "marks_required": 50,
+            "average_cost_range": "₹3L-12L",
+            "budget_min": 300000,
+            "top_colleges": ["NMIMS", "Christ University", "Symbiosis Pune"],
+            "entrance_exams": ["SET", "NPAT", "CUET"],
+            "career_outcomes": ["Financial Advisor", "Investment Analyst", "Banking Professional"]
+          }
+        ]
+      },
+      {
+        "name": "Business Studies",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "BBA",
+            "type": "degree",
+            "eligibility": "12th 50%+",
+            "marks_required": 50,
+            "average_cost_range": "₹3L-15L",
+            "budget_min": 300000,
+            "top_colleges": ["NMIMS", "Christ University", "Symbiosis Pune", "Amity University"],
+            "entrance_exams": ["SET", "NPAT", "CUET"],
+            "next_steps": [
+              {
+                "name": "MBA",
+                "type": "degree",
+                "eligibility": "CAT/XAT",
+                "marks_required": 60,
+                "average_cost_range": "₹10L-25L",
+                "budget_min": 1000000,
+                "top_colleges": ["IIM Ahmedabad", "IIM Bangalore", "XLRI", "ISB Hyderabad"],
+                "entrance_exams": ["CAT", "XAT", "GMAT"],
+                "career_outcomes": ["Management Consultant", "Marketing Manager", "CEO", "Entrepreneur"]
+              }
+            ]
+          },
+          {
+            "name": "Company Secretary",
+            "type": "exam",
+            "eligibility": "12th",
+            "marks_required": 45,
+            "average_cost_range": "₹40K-1.5L",
+            "budget_min": 40000,
+            "top_colleges": ["ICSI"],
+            "entrance_exams": ["CSEET"],
+            "career_outcomes": ["Company Secretary", "Corporate Governance", "Legal Compliance Officer"]
+          },
+          {
+            "name": "BCom with CPA",
+            "type": "degree",
+            "eligibility": "12th Commerce 55%+",
+            "marks_required": 55,
+            "average_cost_range": "₹2L-8L",
+            "budget_min": 200000,
+            "top_colleges": ["CMS Jain Bangalore", "NSB Academy", "H.R. College Mumbai"],
+            "entrance_exams": ["Institution CET", "CUET"],
+            "career_outcomes": ["CPA", "International Accountant", "Finance Manager"]
+          }
+        ]
+      }
+    ]
+  },
+  "Arts": {
+    "substreams": [
+      {
+        "name": "Humanities",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "BA Economics",
+            "type": "degree",
+            "eligibility": "12th any stream",
+            "marks_required": 50,
+            "average_cost_range": "₹50K-3L",
+            "budget_min": 50000,
+            "top_colleges": ["St. Stephen's Delhi", "Lady Shri Ram", "Presidency Kolkata", "Christ University"],
+            "entrance_exams": ["CUET"],
+            "next_steps": [
+              {
+                "name": "MA Economics",
+                "type": "degree",
+                "eligibility": "BA Economics",
+                "marks_required": 55,
+                "average_cost_range": "₹1L-4L",
+                "budget_min": 100000,
+                "top_colleges": ["Delhi School of Economics", "ISI Kolkata", "JNU Delhi"],
+                "entrance_exams": ["DSE Entrance", "JNU Entrance"],
+                "career_outcomes": ["Economist", "Policy Analyst", "Research Fellow", "IES Officer"]
+              }
+            ]
+          },
+          {
+            "name": "BA Psychology",
+            "type": "degree",
+            "eligibility": "12th any stream",
+            "marks_required": 45,
+            "average_cost_range": "₹1L-5L",
+            "budget_min": 100000,
+            "top_colleges": ["Christ University", "Amity", "JMI", "Fergusson College"],
+            "entrance_exams": ["CUET", "Institution-specific"],
+            "career_outcomes": ["Clinical Psychologist", "Counselor", "HR Professional", "School Psychologist"]
+          },
+          {
+            "name": "BA Political Science",
+            "type": "degree",
+            "eligibility": "12th any stream",
+            "marks_required": 45,
+            "average_cost_range": "₹50K-3L",
+            "budget_min": 50000,
+            "top_colleges": ["St. Stephen's Delhi", "Jadavpur University", "Hyderabad Central University"],
+            "entrance_exams": ["CUET"],
+            "career_outcomes": ["Political Analyst", "Civil Servant", "Journalist", "Diplomat"]
+          }
+        ]
+      },
+      {
+        "name": "Law",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "BA LLB",
+            "type": "degree",
+            "eligibility": "CLAT",
+            "marks_required": 50,
+            "average_cost_range": "₹5L-20L",
+            "budget_min": 500000,
+            "top_colleges": ["NLSIU Bangalore", "NALSAR Hyderabad", "NUJS Kolkata", "NLU Delhi"],
+            "entrance_exams": ["CLAT", "AILET"],
+            "career_outcomes": ["Corporate Lawyer", "Litigator", "Judge", "Legal Counsel"]
+          },
+          {
+            "name": "LLB (3yr)",
+            "type": "degree",
+            "eligibility": "Graduation",
+            "marks_required": 45,
+            "average_cost_range": "₹3L-10L",
+            "budget_min": 300000,
+            "top_colleges": ["Government Law College Mumbai", "Faculty of Law Delhi", "Symbiosis Law School"],
+            "entrance_exams": ["DU LLB", "MH CET Law", "CUET PG"],
+            "career_outcomes": ["Advocate", "Legal Advisor", "Notary"]
+          }
+        ]
+      },
+      {
+        "name": "Design",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "BDes Fashion",
+            "type": "degree",
+            "eligibility": "UCEED/NIFT",
+            "marks_required": 50,
+            "average_cost_range": "₹8L-20L",
+            "budget_min": 800000,
+            "top_colleges": ["NIFT Delhi", "Pearl Academy", "NID Ahmedabad", "Symbiosis Design"],
+            "entrance_exams": ["NIFT", "NID DAT", "UCEED"],
+            "career_outcomes": ["Fashion Designer", "Merchandiser", "Stylist", "Brand Manager"]
+          },
+          {
+            "name": "BDes Communication",
+            "type": "degree",
+            "eligibility": "UCEED",
+            "marks_required": 50,
+            "average_cost_range": "₹6L-15L",
+            "budget_min": 600000,
+            "top_colleges": ["NID Ahmedabad", "MIT Institute of Design", "Srishti Bangalore"],
+            "entrance_exams": ["UCEED", "NID DAT", "NIFT"],
+            "career_outcomes": ["Graphic Designer", "UI/UX Designer", "Brand Strategist"]
+          },
+          {
+            "name": "BDes Product",
+            "type": "degree",
+            "eligibility": "UCEED",
+            "marks_required": 50,
+            "average_cost_range": "₹6L-18L",
+            "budget_min": 600000,
+            "top_colleges": ["IIT Bombay IDC", "NID Ahmedabad", "UPES Design"],
+            "entrance_exams": ["UCEED", "NID DAT"],
+            "career_outcomes": ["Product Designer", "Industrial Designer", "UX Researcher"]
+          }
+        ]
+      },
+      {
+        "name": "Civil Services",
+        "after_stage": "Graduation",
+        "options": [
+          {
+            "name": "UPSC CSE",
+            "type": "exam",
+            "eligibility": "Any Graduation",
+            "marks_required": 0,
+            "average_cost_range": "₹1L-5L (coaching)",
+            "budget_min": 100000,
+            "top_colleges": ["Vajiram IAS", "ALS IAS", "Shankar IAS", "Vision IAS"],
+            "entrance_exams": ["UPSC Prelims", "Mains", "Interview"],
+            "career_outcomes": ["IAS", "IPS", "IFS", "IRS"]
+          },
+          {
+            "name": "State PCS",
+            "type": "exam",
+            "eligibility": "Any Graduation",
+            "marks_required": 0,
+            "average_cost_range": "₹50K-2L (coaching)",
+            "budget_min": 50000,
+            "top_colleges": ["State-specific coaching centres"],
+            "entrance_exams": ["KPSC", "MPSC", "TNPSC", "UPPSC"],
+            "career_outcomes": ["Deputy Collector", "DSP", "Block Development Officer"]
+          }
+        ]
+      },
+      {
+        "name": "Mass Media",
+        "after_stage": "12th",
+        "options": [
+          {
+            "name": "BMM / BJC",
+            "type": "degree",
+            "eligibility": "12th any stream",
+            "marks_required": 45,
+            "average_cost_range": "₹2L-8L",
+            "budget_min": 200000,
+            "top_colleges": ["Xavier's Mumbai", "Symbiosis Media", "AJK MCRC Delhi"],
+            "entrance_exams": ["Institution-specific", "CUET"],
+            "career_outcomes": ["Journalist", "Content Creator", "PR Specialist", "News Anchor"]
+          }
+        ]
+      }
+    ]
+  }
+}
