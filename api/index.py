@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from mangum import Mangum
 
 # Add backend directory to Python path
 backend_path = Path(__file__).parent.parent / "backend"
@@ -16,15 +17,10 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Update CORS to allow Vercel deployment
+# Update CORS to allow all origins (or specify your Vercel domain)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://*.vercel.app",
-        "https://path2-0.vercel.app"
-    ],
+    allow_origins=["*"],  # In production, replace with your specific domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -44,6 +40,5 @@ async def api_root():
     return {"message": "P.A.T.H. API is running", "version": "1.0.0"}
 
 
-# Vercel serverless function handler
-def handler(request):
-    return app(request)
+# Vercel serverless handler using Mangum
+handler = Mangum(app)

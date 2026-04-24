@@ -2,14 +2,17 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: process.env.NODE_ENV === 'production'
-          ? '/api/:path*'  // In production, Vercel will handle the API routes
-          : 'http://localhost:8000/api/:path*', // In development, proxy to local FastAPI
-      },
-    ];
+    // In development, proxy API calls to local FastAPI server
+    // In production, Vercel handles /api routes automatically
+    if (process.env.NODE_ENV === 'development') {
+      return [
+        {
+          source: '/api/:path*',
+          destination: 'http://localhost:8000/api/:path*',
+        },
+      ];
+    }
+    return [];
   },
 };
 
