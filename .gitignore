@@ -38,3 +38,13 @@ next-env.d.ts
 *.mov
 *.avi
 *.wmv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
