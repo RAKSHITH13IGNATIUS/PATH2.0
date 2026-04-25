@@ -38,6 +38,8 @@ next-env.d.ts
 *.mov
 *.avi
 *.wmv
+# allow hero video
+!public/expo2.mp4
 
 # Python
 __pycache__/
