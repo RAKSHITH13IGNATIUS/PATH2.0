@@ -139,7 +139,7 @@ export default function PathGraph({ pathData, userInput, onBranch }: Props) {
             size={1.5}
             color="rgba(161,0,255,0.3)"
           />
-          <Controls className="!bottom-4 !left-4" showInteractiveButton={false} />
+          <Controls className="!bottom-4 !left-4" showInteractive={false} />
           <MiniMap
             nodeColor={(n) => NODE_COLORS[n.data?.node?.type] ?? "#1a1040"}
             maskColor="rgba(5,5,15,0.8)"

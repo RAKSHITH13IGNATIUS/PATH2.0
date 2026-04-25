@@ -43,11 +43,11 @@ const LIGHT = {
 /* ── Animation variants ───────────────────────────────────── */
 const slideDown = {
   hidden:  { y: -40, opacity: 0 },
-  visible: { y: 0,   opacity: 1, transition: { duration: 0.3, ease: "easeOut" } },
+  visible: { y: 0,   opacity: 1, transition: { duration: 0.3, ease: "easeOut" as const } },
 };
 const slideLeft = {
   hidden:  { x: -60, opacity: 0 },
-  visible: { x: 0,   opacity: 1, transition: { duration: 0.35, ease: "easeOut" } },
+  visible: { x: 0,   opacity: 1, transition: { duration: 0.35, ease: "easeOut" as const } },
 };
 const fadeIn = {
   hidden:  { opacity: 0 },
@@ -59,11 +59,11 @@ const staggerKids = {
 };
 const popUp = {
   hidden:  { scale: 0.85, opacity: 0, y: 16 },
-  visible: { scale: 1,    opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.34,1.56,0.64,1] } },
+  visible: { scale: 1,    opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.34,1.56,0.64,1] as [number,number,number,number] } },
 };
 const floatAnim = {
   y: [0, -10, 0],
-  transition: { duration: 2.2, repeat: Infinity, ease: "easeInOut" },
+  transition: { duration: 2.2, repeat: Infinity, ease: "easeInOut" as const },
 };
 
 export default function PlatformPage() {
