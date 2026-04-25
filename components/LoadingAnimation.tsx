@@ -1,16 +1,20 @@
 "use client";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function LoadingAnimation({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
+  // Keep a ref so the effect never needs to depend on the prop —
+  // avoids restarting the interval on every parent re-render.
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(onComplete, 500);
+          setTimeout(() => onCompleteRef.current(), 500);
           return 100;
         }
         return prev + 2;
@@ -18,7 +22,7 @@ export default function LoadingAnimation({ onComplete }: { onComplete: () => voi
     }, 30);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, []); // intentionally empty — runs once on mount
 
   return (
     <motion.div
@@ -70,7 +74,7 @@ export default function LoadingAnimation({ onComplete }: { onComplete: () => voi
         }
       `}</style>
 
-      <div className="w-full max-w-3xl px-6">
+      <div style={{ width: "100%", maxWidth: 720, margin: "0 auto", padding: "0 24px" }}>
         <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="chipGradient" x1="0" y1="0" x2="0" y2="1">
@@ -166,11 +170,13 @@ export default function LoadingAnimation({ onComplete }: { onComplete: () => voi
           <circle cx="680" cy="340" r="5" fill="black"></circle>
         </svg>
 
-        <div className="mt-8 text-center">
-          <div className="text-purple-400 font-semibold mb-2">Initializing P.A.T.H.</div>
-          <div className="w-full max-w-md mx-auto h-2 bg-gray-800 rounded-full overflow-hidden">
+        <div style={{ marginTop: 32, textAlign: "center" }}>
+          <div style={{ color: "#a100ff", fontWeight: 600, marginBottom: 10, fontSize: 14, letterSpacing: "0.05em" }}>
+            Initializing P.A.T.H.
+          </div>
+          <div style={{ width: "100%", maxWidth: 480, margin: "0 auto", height: 6, background: "rgba(255,255,255,0.08)", borderRadius: 999, overflow: "hidden" }}>
             <motion.div
-              className="h-full bg-gradient-to-r from-purple-600 via-blue-500 to-purple-600"
+              style={{ height: "100%", background: "linear-gradient(90deg, #a100ff, #7c3aed, #ff36c9)", borderRadius: 999 }}
               initial={{ width: "0%" }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}

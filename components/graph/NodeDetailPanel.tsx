@@ -1,8 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Edit3, Save, GitBranch, ExternalLink, IndianRupee, Award } from "lucide-react";
+import { motion } from "framer-motion";
+import { X, Edit3, Save, GitBranch, ExternalLink, IndianRupee, Award, Trash2, Plus } from "lucide-react";
 import { PathNode, College } from "@/services/api";
+
+const BRANCH_SUGGESTIONS: Record<string, string[]> = {
+  stage:     ["PUC Science (PCM)", "PUC Commerce", "PUC Arts", "Polytechnic Diploma", "ITI Certificate"],
+  education: ["BE / B.Tech", "MBBS", "B.Com / BBA", "BA / BSc", "Law (LLB)", "B.Design"],
+  exam:      ["JEE Main", "NEET", "KCET", "COMEDK", "CLAT", "NDA", "CAT"],
+  college:   ["Tier 1 Government College", "Tier 2 Private College", "Deemed University", "Distance / Online"],
+  career:    ["Senior Role", "Team Lead / Manager", "Entrepreneurship", "Research & PhD", "International Opportunity"],
+};
 
 interface Props {
   node: PathNode;
@@ -11,185 +19,334 @@ interface Props {
   onEdit: () => void;
   onSave: (nodeId: number, changes: Partial<PathNode>) => void;
   onBranch: () => void;
+  onDelete: () => void;
   isEditing: boolean;
 }
 
-export default function NodeDetailPanel({ node, onClose, onEdit, onSave, onBranch, isEditing }: Props) {
-  const [draft, setDraft] = useState({ title: node.title, description: node.description, cost: node.cost, eligibility: node.eligibility });
+export default function NodeDetailPanel({ node, onClose, onEdit, onSave, onBranch, onDelete, isEditing }: Props) {
+  const [draft, setDraft] = useState({
+    title: node.title,
+    description: node.description,
+    cost: node.cost,
+    eligibility: node.eligibility,
+  });
+  const [showBranchSuggestions, setShowBranchSuggestions] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
     setDraft({ title: node.title, description: node.description, cost: node.cost, eligibility: node.eligibility });
+    setShowBranchSuggestions(false);
+    setConfirmDelete(false);
   }, [node.id]);
 
   const handleSave = () => onSave(node.id, draft);
+  const suggestions = BRANCH_SUGGESTIONS[node.type] ?? [];
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ x: 400, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: 400, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="absolute top-0 right-0 h-full w-[420px] glass-strong border-l border-purple-500/20 flex flex-col z-20 overflow-hidden"
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-purple-500/15">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-purple-400 px-2 py-0.5 rounded-full bg-purple-500/15">
-              {node.type}
-            </span>
+    <motion.div
+      initial={{ width: 0, opacity: 0 }}
+      animate={{ width: 400, opacity: 1 }}
+      exit={{ width: 0, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 320, damping: 32 }}
+      style={{
+        width: 400,
+        minWidth: 400,
+        height: "100%",
+        background: "rgba(13,10,28,0.97)",
+        borderLeft: "1px solid rgba(161,0,255,0.2)",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+        flexShrink: 0,
+      }}
+    >
+      {/* Header */}
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "14px 16px",
+        borderBottom: "1px solid rgba(161,0,255,0.12)",
+        flexShrink: 0,
+      }}>
+        <span style={{
+          fontSize: 10, fontWeight: 700, textTransform: "uppercase",
+          letterSpacing: "0.12em", color: "#e1b6ff",
+          padding: "3px 10px", borderRadius: 999,
+          background: "rgba(161,0,255,0.15)", border: "1px solid rgba(161,0,255,0.25)",
+        }}>
+          {node.type}
+        </span>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          {/* Branch */}
+          <IconBtn
+            title="Branch from this node"
+            onClick={() => setShowBranchSuggestions((v) => !v)}
+            color="#e1b6ff"
+            hoverBg="rgba(161,0,255,0.2)"
+          >
+            <GitBranch size={14} />
+          </IconBtn>
+
+          {/* Edit / Save */}
+          {isEditing ? (
+            <IconBtn title="Save changes" onClick={handleSave} color="#86efac" hoverBg="rgba(74,222,128,0.15)">
+              <Save size={14} />
+            </IconBtn>
+          ) : (
+            <IconBtn title="Edit node" onClick={onEdit} color="#e1b6ff" hoverBg="rgba(161,0,255,0.2)">
+              <Edit3 size={14} />
+            </IconBtn>
+          )}
+
+          {/* Delete */}
+          {confirmDelete ? (
+            <div style={{ display: "flex", gap: 4 }}>
+              <button
+                onClick={onDelete}
+                style={{
+                  fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 6,
+                  background: "rgba(239,68,68,0.2)", border: "1px solid rgba(239,68,68,0.4)",
+                  color: "#fca5a5", cursor: "pointer",
+                }}
+              >
+                Confirm
+              </button>
+              <button
+                onClick={() => setConfirmDelete(false)}
+                style={{
+                  fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 6,
+                  background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                  color: "#9a8ca2", cursor: "pointer",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <IconBtn title="Delete node" onClick={() => setConfirmDelete(true)} color="#fca5a5" hoverBg="rgba(239,68,68,0.15)">
+              <Trash2 size={14} />
+            </IconBtn>
+          )}
+
+          {/* Close */}
+          <IconBtn title="Close" onClick={onClose} color="#9a8ca2" hoverBg="rgba(255,255,255,0.08)">
+            <X size={14} />
+          </IconBtn>
+        </div>
+      </div>
+
+      {/* Branch suggestion tray */}
+      {showBranchSuggestions && (
+        <div style={{
+          padding: "12px 16px",
+          borderBottom: "1px solid rgba(161,0,255,0.1)",
+          background: "rgba(161,0,255,0.05)",
+          flexShrink: 0,
+        }}>
+          <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#9a8ca2", marginBottom: 8 }}>
+            Branch suggestions
           </div>
-          <div className="flex items-center gap-1">
-            <button
-              onClick={onBranch}
-              title="Branch from here"
-              className="p-1.5 rounded-lg hover:bg-purple-500/20 text-purple-400 hover:text-purple-300 transition-colors"
-            >
-              <GitBranch size={14} />
-            </button>
-            {isEditing ? (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {suggestions.map((s) => (
               <button
-                onClick={handleSave}
-                className="p-1.5 rounded-lg hover:bg-green-500/20 text-green-400 transition-colors"
+                key={s}
+                onClick={() => { onBranch(); setShowBranchSuggestions(false); }}
+                style={{
+                  display: "flex", alignItems: "center", gap: 4,
+                  padding: "4px 10px", borderRadius: 999, fontSize: 11, fontWeight: 600, cursor: "pointer",
+                  background: "rgba(161,0,255,0.12)", border: "1px solid rgba(161,0,255,0.3)", color: "#e1b6ff",
+                  transition: "background 0.15s",
+                }}
               >
-                <Save size={14} />
+                <Plus size={10} /> {s}
               </button>
-            ) : (
-              <button
-                onClick={onEdit}
-                className="p-1.5 rounded-lg hover:bg-purple-500/20 text-purple-400 transition-colors"
-              >
-                <Edit3 size={14} />
-              </button>
-            )}
+            ))}
             <button
-              onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-red-500/20 text-[#8b84b0] hover:text-red-400 transition-colors"
+              onClick={() => { onBranch(); setShowBranchSuggestions(false); }}
+              style={{
+                display: "flex", alignItems: "center", gap: 4,
+                padding: "4px 10px", borderRadius: 999, fontSize: 11, fontWeight: 600, cursor: "pointer",
+                background: "rgba(255,54,201,0.1)", border: "1px solid rgba(255,54,201,0.25)", color: "#ffaedd",
+                transition: "background 0.15s",
+              }}
             >
-              <X size={14} />
+              <GitBranch size={10} /> AI Generate
             </button>
           </div>
         </div>
+      )}
 
-        {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
-          {/* Title */}
+      {/* Scrollable content */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "16px", display: "flex", flexDirection: "column", gap: 16 }}>
+
+        {/* Title */}
+        {isEditing ? (
+          <input
+            value={draft.title}
+            onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))}
+            style={{
+              width: "100%", background: "rgba(161,0,255,0.1)", border: "1px solid rgba(161,0,255,0.35)",
+              borderRadius: 10, padding: "8px 12px", color: "#fff", fontWeight: 700, fontSize: 16,
+              outline: "none", boxSizing: "border-box",
+            }}
+          />
+        ) : (
+          <h2 style={{ color: "#fff", fontWeight: 800, fontSize: 18, margin: 0, lineHeight: 1.3 }}>{node.title}</h2>
+        )}
+
+        {/* Description */}
+        <Section label="Description">
           {isEditing ? (
-            <input
-              value={draft.title}
-              onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))}
-              className="w-full bg-purple-500/10 border border-purple-500/30 rounded-lg px-3 py-2 text-white font-bold text-lg focus:outline-none focus:border-purple-400"
+            <textarea
+              value={draft.description}
+              onChange={(e) => setDraft((d) => ({ ...d, description: e.target.value }))}
+              rows={3}
+              style={{
+                width: "100%", background: "rgba(161,0,255,0.08)", border: "1px solid rgba(161,0,255,0.25)",
+                borderRadius: 10, padding: "8px 12px", color: "#c9c4e8", fontSize: 13,
+                outline: "none", resize: "none", boxSizing: "border-box",
+              }}
             />
           ) : (
-            <h2 className="text-xl font-black text-white">{node.title}</h2>
+            <p style={{ color: "#8b84b0", fontSize: 13, lineHeight: 1.65, margin: 0 }}>{node.description}</p>
           )}
+        </Section>
 
-          {/* Description */}
-          <div>
-            <SectionLabel>Description</SectionLabel>
+        {/* Cost & Eligibility */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <InfoCard icon={IndianRupee} label="Cost">
             {isEditing ? (
-              <textarea
-                value={draft.description}
-                onChange={(e) => setDraft((d) => ({ ...d, description: e.target.value }))}
-                rows={3}
-                className="w-full bg-purple-500/10 border border-purple-500/30 rounded-lg px-3 py-2 text-sm text-[#c9c4e8] focus:outline-none focus:border-purple-400 resize-none"
+              <input
+                value={draft.cost}
+                onChange={(e) => setDraft((d) => ({ ...d, cost: e.target.value }))}
+                style={{ background: "transparent", border: "none", outline: "none", color: "#e1b6ff", fontSize: 12, fontWeight: 600, width: "100%" }}
               />
             ) : (
-              <p className="text-sm text-[#8b84b0] leading-relaxed">{node.description}</p>
+              <span style={{ color: "#e1b6ff", fontSize: 12, fontWeight: 600 }}>{node.cost}</span>
             )}
-          </div>
-
-          {/* Cost & Eligibility */}
-          <div className="grid grid-cols-2 gap-3">
-            <InfoCard icon={IndianRupee} label="Cost">
-              {isEditing ? (
-                <input
-                  value={draft.cost}
-                  onChange={(e) => setDraft((d) => ({ ...d, cost: e.target.value }))}
-                  className="w-full bg-transparent text-xs text-purple-300 font-medium focus:outline-none"
-                />
-              ) : (
-                <span className="text-xs text-purple-300 font-medium">{node.cost}</span>
-              )}
-            </InfoCard>
-            <InfoCard icon={Award} label="Eligibility">
-              {isEditing ? (
-                <input
-                  value={draft.eligibility}
-                  onChange={(e) => setDraft((d) => ({ ...d, eligibility: e.target.value }))}
-                  className="w-full bg-transparent text-xs text-purple-300 font-medium focus:outline-none"
-                />
-              ) : (
-                <span className="text-xs text-purple-300 font-medium">{node.eligibility}</span>
-              )}
-            </InfoCard>
-          </div>
-
-          {/* Exams */}
-          {node.exams.length > 0 && (
-            <div>
-              <SectionLabel>Entrance Exams</SectionLabel>
-              <div className="flex flex-wrap gap-1.5">
-                {node.exams.map((e) => (
-                  <span key={e} className="px-2 py-0.5 rounded-full text-[11px] bg-purple-600/20 border border-purple-500/30 text-purple-300">
-                    {e}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Resources */}
-          {node.resources.length > 0 && (
-            <div>
-              <SectionLabel>Learning Resources</SectionLabel>
-              <div className="space-y-1">
-                {node.resources.map((r) => (
-                  <div key={r} className="flex items-center gap-2 text-sm text-[#8b84b0]">
-                    <div className="w-1 h-1 rounded-full bg-purple-500 flex-shrink-0" />
-                    {r}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Colleges */}
-          {node.colleges.length > 0 && (
-            <div>
-              <SectionLabel>Recommended Colleges ({node.colleges.length})</SectionLabel>
-              <div className="space-y-2">
-                {node.colleges.map((c) => (
-                  <CollegeCard key={c.aishe_code} college={c} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {isEditing && (
-            <button
-              onClick={handleSave}
-              className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm flex items-center justify-center gap-2 transition-all"
-            >
-              <Save size={14} /> Save Changes
-            </button>
-          )}
+          </InfoCard>
+          <InfoCard icon={Award} label="Eligibility">
+            {isEditing ? (
+              <input
+                value={draft.eligibility}
+                onChange={(e) => setDraft((d) => ({ ...d, eligibility: e.target.value }))}
+                style={{ background: "transparent", border: "none", outline: "none", color: "#e1b6ff", fontSize: 12, fontWeight: 600, width: "100%" }}
+              />
+            ) : (
+              <span style={{ color: "#e1b6ff", fontSize: 12, fontWeight: 600 }}>{node.eligibility}</span>
+            )}
+          </InfoCard>
         </div>
-      </motion.div>
-    </AnimatePresence>
+
+        {/* Exams */}
+        {node.exams.length > 0 && (
+          <Section label="Entrance Exams">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {node.exams.map((e) => (
+                <span key={e} style={{
+                  padding: "3px 10px", borderRadius: 999, fontSize: 11,
+                  background: "rgba(161,0,255,0.18)", border: "1px solid rgba(161,0,255,0.3)", color: "#e1b6ff",
+                }}>
+                  {e}
+                </span>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Resources */}
+        {node.resources.length > 0 && (
+          <Section label="Learning Resources">
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {node.resources.map((r) => (
+                <div key={r} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#8b84b0" }}>
+                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#a100ff", flexShrink: 0 }}/>
+                  {r}
+                </div>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Colleges */}
+        {node.colleges.length > 0 && (
+          <Section label={`Recommended Colleges (${node.colleges.length})`}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {node.colleges.map((c) => (
+                <CollegeCard key={c.aishe_code} college={c} />
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Save button when editing */}
+        {isEditing && (
+          <button
+            onClick={handleSave}
+            style={{
+              width: "100%", padding: "11px 0", borderRadius: 12, border: "none", cursor: "pointer",
+              background: "linear-gradient(135deg, #a100ff, #7c3aed)",
+              color: "#fff", fontWeight: 700, fontSize: 14,
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+              boxShadow: "0 0 20px rgba(161,0,255,0.3)",
+            }}
+          >
+            <Save size={14} /> Save Changes
+          </button>
+        )}
+      </div>
+    </motion.div>
   );
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <div className="text-[10px] font-bold uppercase tracking-widest text-purple-400/60 mb-2">{children}</div>;
+/* ── Small helpers ─────────────────────────────────────────── */
+
+function IconBtn({ children, title, onClick, color, hoverBg }: {
+  children: React.ReactNode; title: string;
+  onClick: () => void; color: string; hoverBg: string;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      title={title}
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        padding: 6, borderRadius: 8, border: "none", cursor: "pointer",
+        background: hovered ? hoverBg : "transparent",
+        color: hovered ? color : "#9a8ca2",
+        transition: "background 0.15s, color 0.15s",
+        display: "flex", alignItems: "center", justifyContent: "center",
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Section({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "rgba(161,0,255,0.6)", marginBottom: 8 }}>
+        {label}
+      </div>
+      {children}
+    </div>
+  );
 }
 
 function InfoCard({ icon: Icon, label, children }: { icon: React.ElementType; label: string; children: React.ReactNode }) {
   return (
-    <div className="glass rounded-xl p-3 border border-purple-500/15">
-      <div className="flex items-center gap-1.5 mb-1.5">
-        <Icon size={11} className="text-purple-400" />
-        <span className="text-[9px] font-bold uppercase tracking-wider text-purple-400/70">{label}</span>
+    <div style={{
+      background: "rgba(255,255,255,0.03)", border: "1px solid rgba(161,0,255,0.15)",
+      borderRadius: 12, padding: "10px 12px",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+        <Icon size={11} style={{ color: "#a100ff" }} />
+        <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(161,0,255,0.7)" }}>
+          {label}
+        </span>
       </div>
       {children}
     </div>
@@ -198,33 +355,39 @@ function InfoCard({ icon: Icon, label, children }: { icon: React.ElementType; la
 
 function CollegeCard({ college }: { college: College }) {
   return (
-    <div className="glass rounded-xl p-3 border border-purple-500/10 hover:border-purple-500/25 transition-colors group">
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
-          <div className="text-xs font-bold text-white leading-snug truncate">{college.name}</div>
-          <div className="text-[10px] text-[#8b84b0] mt-0.5">{college.district} · {college.location_type}</div>
-          <div className="text-[10px] text-purple-300 mt-0.5 truncate">{college.program}</div>
+    <div style={{
+      background: "rgba(255,255,255,0.03)", border: "1px solid rgba(161,0,255,0.12)",
+      borderRadius: 12, padding: "10px 12px",
+    }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", lineHeight: 1.3 }}>{college.name}</div>
+          <div style={{ fontSize: 10, color: "#8b84b0", marginTop: 2 }}>{college.district} · {college.location_type}</div>
+          <div style={{ fontSize: 10, color: "#e1b6ff", marginTop: 2 }}>{college.program}</div>
         </div>
-        <div className="flex flex-col items-end gap-1 flex-shrink-0">
-          <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${college.tier === "Tier 1" ? "bg-yellow-500/20 text-yellow-300" : college.tier === "Tier 2" ? "bg-purple-500/20 text-purple-300" : "bg-gray-500/20 text-gray-300"}`}>
-            {college.tier}
-          </span>
-        </div>
+        <span style={{
+          fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 999, flexShrink: 0,
+          background: college.tier === "Tier 1" ? "rgba(234,179,8,0.15)" : college.tier === "Tier 2" ? "rgba(161,0,255,0.15)" : "rgba(255,255,255,0.08)",
+          color: college.tier === "Tier 1" ? "#fde047" : college.tier === "Tier 2" ? "#e1b6ff" : "#9a8ca2",
+          border: college.tier === "Tier 1" ? "1px solid rgba(234,179,8,0.3)" : "1px solid rgba(161,0,255,0.25)",
+        }}>
+          {college.tier}
+        </span>
       </div>
-      <div className="mt-2 pt-2 border-t border-purple-500/10 grid grid-cols-3 gap-2">
-        <Stat label="GM Fee" value={`₹${(college.fee / 1000).toFixed(0)}K`} />
+      <div style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid rgba(161,0,255,0.1)", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 4 }}>
+        <Stat label="GM Fee"   value={`₹${(college.fee / 1000).toFixed(0)}K`} />
         <Stat label="Mgmt Fee" value={`₹${(college.management_fee / 1000).toFixed(0)}K`} />
-        <Stat label="Avg Pkg" value={`₹${(college.avg_package / 100000).toFixed(1)}L`} />
+        <Stat label="Avg Pkg"  value={`₹${(college.avg_package / 100000).toFixed(1)}L`} />
       </div>
-      <div className="mt-2 flex items-center justify-between">
-        <span className="text-[9px] text-[#8b84b0]">{college.entrance_exam} · {college.quota}</span>
+      <div style={{ marginTop: 6, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontSize: 9, color: "#8b84b0" }}>{college.entrance_exam} · {college.quota}</span>
         {college.website && college.website !== "N/A" && (
           <a
             href={college.website.startsWith("http") ? college.website : `https://${college.website}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-purple-400 hover:text-purple-300 transition-colors"
             onClick={(e) => e.stopPropagation()}
+            style={{ color: "#a100ff" }}
           >
             <ExternalLink size={10} />
           </a>
@@ -236,9 +399,9 @@ function CollegeCard({ college }: { college: College }) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="text-center">
-      <div className="text-[9px] text-[#8b84b0]">{label}</div>
-      <div className="text-[10px] font-bold text-purple-300">{value}</div>
+    <div style={{ textAlign: "center" }}>
+      <div style={{ fontSize: 9, color: "#8b84b0" }}>{label}</div>
+      <div style={{ fontSize: 10, fontWeight: 700, color: "#e1b6ff" }}>{value}</div>
     </div>
   );
 }

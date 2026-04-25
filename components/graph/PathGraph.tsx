@@ -12,6 +12,7 @@ import ReactFlow, {
   Edge,
   BackgroundVariant,
   MarkerType,
+  Panel,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { PathResponse, PathNode, PathEdge, UserInput } from "@/services/api";
@@ -19,19 +20,19 @@ import PathNodeCard from "./PathNodeCard";
 import NodeDetailPanel from "./NodeDetailPanel";
 
 const NODE_COLORS: Record<string, string> = {
-  stage: "#1e1040",
+  stage:     "#1e1040",
   education: "#1a0f38",
-  exam: "#120b2e",
-  college: "#0f0d2a",
-  career: "#160d3a",
+  exam:      "#120b2e",
+  college:   "#0f0d2a",
+  career:    "#160d3a",
 };
 
 const NODE_BORDER: Record<string, string> = {
-  stage: "rgba(168,85,247,0.6)",
+  stage:     "rgba(168,85,247,0.6)",
   education: "rgba(124,58,237,0.7)",
-  exam: "rgba(192,132,252,0.5)",
-  college: "rgba(139,92,246,0.6)",
-  career: "rgba(167,139,250,0.6)",
+  exam:      "rgba(192,132,252,0.5)",
+  college:   "rgba(139,92,246,0.6)",
+  career:    "rgba(167,139,250,0.6)",
 };
 
 function buildRFNodes(pathNodes: PathNode[], offset = 0): Node[] {
@@ -70,9 +71,9 @@ interface Props {
 }
 
 export default function PathGraph({ pathData, userInput, onBranch }: Props) {
-  const [selectedNode, setSelectedNode] = useState<PathNode | null>(null);
-  const [editingNode, setEditingNode] = useState<PathNode | null>(null);
-  const [editedNodes, setEditedNodes] = useState<Record<number, Partial<PathNode>>>({});
+  const [selectedNode, setSelectedNode]   = useState<PathNode | null>(null);
+  const [editingNode, setEditingNode]     = useState<PathNode | null>(null);
+  const [editedNodes, setEditedNodes]     = useState<Record<number, Partial<PathNode>>>({});
 
   const initialRFNodes = useMemo(() => buildRFNodes(pathData.nodes), [pathData.nodes]);
   const initialRFEdges = useMemo(() => buildRFEdges(pathData.edges), [pathData.edges]);
@@ -104,56 +105,106 @@ export default function PathGraph({ pathData, userInput, onBranch }: Props) {
     setEditingNode(null);
   };
 
+  // Delete selected node + its connected edges
+  const handleDeleteNode = (nodeId: number) => {
+    const idStr = String(nodeId);
+    setNodes((ns) => ns.filter((n) => n.id !== idStr));
+    setEdges((es) => es.filter((e) => e.source !== idStr && e.target !== idStr));
+    setSelectedNode(null);
+  };
+
   return (
-    <div className="relative w-full h-full">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        onNodeClick={handleNodeClick}
-        nodeTypes={nodeTypes}
-        fitView
-        fitViewOptions={{ padding: 0.3 }}
-        minZoom={0.3}
-        maxZoom={2}
-        proOptions={{ hideAttribution: true }}
-      >
-        <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="rgba(124,58,237,0.15)" />
-        <Controls className="!bottom-4 !left-4" />
-        <MiniMap
-          nodeColor={(n) => NODE_COLORS[n.data?.node?.type] ?? "#1a1040"}
-          maskColor="rgba(5,5,15,0.8)"
-          style={{ background: "rgba(13,13,26,0.8)", border: "1px solid rgba(124,58,237,0.2)" }}
-        />
-      </ReactFlow>
+    // Flex row — when panel open the graph shrinks, no overlap
+    <div className="flex w-full h-full">
 
-      {/* Alternative paths row */}
-      {pathData.alternative_paths.length > 0 && (
-        <div className="absolute bottom-20 left-4 flex gap-2 z-10">
-          {pathData.alternative_paths.map((alt, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                const altNodes = buildRFNodes(alt.nodes, 1000 + i * 100);
-                altNodes.forEach((n) => { n.position.y = 280; });
-                const altEdges = buildRFEdges(alt.edges, 1000 + i * 100);
-                setNodes((prev) => {
-                  const ids = new Set(altNodes.map((n) => n.id));
-                  return [...prev.filter((n) => !ids.has(n.id)), ...altNodes];
-                });
-                setEdges((prev) => [...prev, ...altEdges]);
-              }}
-              className="px-3 py-1.5 rounded-lg glass border border-purple-500/30 text-purple-300 text-xs font-medium hover:bg-purple-500/20 transition-all"
-            >
-              + {alt.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Graph area */}
+      <div className="flex-1 relative min-w-0">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onNodeClick={handleNodeClick}
+          nodeTypes={nodeTypes}
+          fitView
+          fitViewOptions={{ padding: 0.3 }}
+          minZoom={0.3}
+          maxZoom={2}
+          proOptions={{ hideAttribution: true }}
+        >
+          <Background
+            variant={BackgroundVariant.Dots}
+            gap={24}
+            size={1.5}
+            color="rgba(161,0,255,0.3)"
+          />
+          <Controls className="!bottom-4 !left-4" showInteractiveButton={false} />
+          <MiniMap
+            nodeColor={(n) => NODE_COLORS[n.data?.node?.type] ?? "#1a1040"}
+            maskColor="rgba(5,5,15,0.8)"
+            style={{ background: "rgba(13,13,26,0.9)", border: "1px solid rgba(124,58,237,0.3)" }}
+          />
 
-      {/* Node detail panel */}
+          {/* Top-right: node + edge count badge */}
+          <Panel position="top-right">
+            <div style={{
+              display: "flex", gap: 8, padding: "6px 12px",
+              background: "rgba(13,10,28,0.85)", backdropFilter: "blur(12px)",
+              border: "1px solid rgba(161,0,255,0.25)", borderRadius: 20,
+              fontSize: 11, color: "#9a8ca2", userSelect: "none",
+            }}>
+              <span style={{ color: "#c084fc", fontWeight: 700 }}>{nodes.length}</span>
+              <span>nodes</span>
+              <span style={{ color: "rgba(161,0,255,0.4)" }}>·</span>
+              <span style={{ color: "#c084fc", fontWeight: 700 }}>{edges.length}</span>
+              <span>connections</span>
+            </div>
+          </Panel>
+
+          {/* Bottom-center: hint when nothing selected */}
+          {!selectedNode && (
+            <Panel position="bottom-center">
+              <div style={{
+                padding: "5px 14px", marginBottom: 8,
+                background: "rgba(13,10,28,0.75)", backdropFilter: "blur(10px)",
+                border: "1px solid rgba(161,0,255,0.2)", borderRadius: 20,
+                fontSize: 11, color: "#6b6278", userSelect: "none",
+                display: "flex", alignItems: "center", gap: 6,
+              }}>
+                <span style={{ color: "rgba(161,0,255,0.6)", fontSize: 13 }}>⬡</span>
+                Click a node to explore · Drag to rearrange · Scroll to zoom
+              </div>
+            </Panel>
+          )}
+        </ReactFlow>
+
+        {/* Alternative paths */}
+        {pathData.alternative_paths.length > 0 && (
+          <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
+            {pathData.alternative_paths.map((alt, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  const altNodes = buildRFNodes(alt.nodes, 1000 + i * 100);
+                  altNodes.forEach((n) => { n.position.y = 280; });
+                  const altEdges = buildRFEdges(alt.edges, 1000 + i * 100);
+                  setNodes((prev) => {
+                    const ids = new Set(altNodes.map((n) => n.id));
+                    return [...prev.filter((n) => !ids.has(n.id)), ...altNodes];
+                  });
+                  setEdges((prev) => [...prev, ...altEdges]);
+                }}
+                className="px-3 py-1.5 rounded-lg glass border border-purple-500/30 text-purple-300 text-xs font-medium hover:bg-purple-500/20 transition-all"
+              >
+                + {alt.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Detail panel — sits beside graph, no overlay */}
       {selectedNode && (
         <NodeDetailPanel
           node={selectedNode}
@@ -162,6 +213,7 @@ export default function PathGraph({ pathData, userInput, onBranch }: Props) {
           onEdit={() => setEditingNode(selectedNode)}
           onSave={handleSaveEdit}
           onBranch={() => onBranch(selectedNode.id, selectedNode.title)}
+          onDelete={() => handleDeleteNode(selectedNode.id)}
           isEditing={editingNode?.id === selectedNode.id}
         />
       )}
