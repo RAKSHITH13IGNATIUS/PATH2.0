@@ -1,13 +1,15 @@
 "use client";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export default function LoadingAnimation({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
   // Keep a ref so the effect never needs to depend on the prop —
   // avoids restarting the interval on every parent re-render.
   const onCompleteRef = useRef(onComplete);
-  onCompleteRef.current = onComplete;
+  useLayoutEffect(() => {
+    onCompleteRef.current = onComplete;
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {

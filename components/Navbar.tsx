@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 
 const links = [
   { label: "Products", href: "#services" },
@@ -35,7 +36,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-7 h-7 rounded-lg bg-[#e8650a] flex items-center justify-center">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 3h4v4H3zM9 3h4v4H9zM3 9h4v4H3zM9 9h4v4H9z" fill="white" opacity="0.9" />
@@ -44,7 +45,7 @@ export default function Navbar() {
             <span className="font-bold text-[17px] tracking-tight text-[#0f0f0f]">
               Pressly
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">

@@ -25,7 +25,7 @@ export default function TrustBar() {
           transition={{ duration: 0.6 }}
           className="text-center text-[12px] font-semibold text-[#7a7a7a] uppercase tracking-[0.1em] mb-10"
         >
-          Trusted by the world's best brands
+          Trusted by the world&apos;s best brands
         </motion.p>
 
         {/* Brand logos (text style — premium feel) */}

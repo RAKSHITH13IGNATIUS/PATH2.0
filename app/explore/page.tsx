@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
-  ChevronLeft, Download, Loader2, GitBranch,
+  ChevronLeft, Download, Loader2,
   Compass, AlertCircle, Star,
 } from "lucide-react";
 import ExploreForm from "@/components/ui/ExploreForm";

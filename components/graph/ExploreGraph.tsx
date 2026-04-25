@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, startTransition } from "react";
 import ReactFlow, {
   Background, Controls, MiniMap, useNodesState, useEdgesState,
   Node, Edge, MarkerType, BackgroundVariant, Connection, addEdge,
@@ -60,7 +60,7 @@ interface Props {
 }
 
 export default function ExploreGraph({
-  pathData, exploreInput, onBranch, selectedTitles, onSelectTitle,
+  pathData, onBranch, selectedTitles, onSelectTitle,
 }: Props) {
   const [activeNode, setActiveNode] = useState<JsonPathNode | null>(null);
   const [showAlts, setShowAlts] = useState(false);
@@ -82,11 +82,14 @@ export default function ExploreGraph({
   const [edges, setEdges, onEdgesChange] = useEdgesState(baseRFEdges);
 
   useEffect(() => {
-    const laid = layoutGraph(baseRFNodes, baseRFEdges);
-    setNodes(laid);
-    setEdges(baseRFEdges);
-    setActiveNode(null);
-  }, [pathData]);
+    startTransition(() => {
+      const laid = layoutGraph(baseRFNodes, baseRFEdges);
+      setNodes(laid);
+      setEdges(baseRFEdges);
+      setActiveNode(null);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathData]); // setNodes/setEdges are stable ReactFlow setters; baseRFNodes/baseRFEdges derive from pathData
 
   const onConnect = useCallback(
     (c: Connection) => setEdges((es) => addEdge(c, es)),
