@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, startTransition } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -70,7 +70,7 @@ interface Props {
   onBranch: (nodeId: number, nodeTitle: string) => void;
 }
 
-export default function PathGraph({ pathData, userInput, onBranch }: Props) {
+export default function PathGraph({ pathData, onBranch }: Props) {
   const [selectedNode, setSelectedNode]   = useState<PathNode | null>(null);
   const [editingNode, setEditingNode]     = useState<PathNode | null>(null);
   const [editedNodes, setEditedNodes]     = useState<Record<number, Partial<PathNode>>>({});
@@ -82,11 +82,14 @@ export default function PathGraph({ pathData, userInput, onBranch }: Props) {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialRFEdges);
 
   useEffect(() => {
-    setNodes(buildRFNodes(pathData.nodes));
-    setEdges(buildRFEdges(pathData.edges));
-    setSelectedNode(null);
-    setEditingNode(null);
-  }, [pathData]);
+    startTransition(() => {
+      setNodes(buildRFNodes(pathData.nodes));
+      setEdges(buildRFEdges(pathData.edges));
+      setSelectedNode(null);
+      setEditingNode(null);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathData]); // setNodes/setEdges are stable ReactFlow setters
 
   const onConnect = useCallback(
     (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),

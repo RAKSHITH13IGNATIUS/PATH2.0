@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, startTransition } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  X, Edit3, Save, GitBranch, ExternalLink,
+  X, Edit3, Save, GitBranch,
   GraduationCap, BookOpen, IndianRupee, Target, Star,
 } from "lucide-react";
 import { JsonPathNode } from "@/services/exploreApi";
@@ -20,9 +20,12 @@ export default function ExploreDetailPanel({ node, onClose, onBranch, onSelect, 
   const [draft, setDraft] = useState({ title: node.title, description: node.description, cost: node.cost });
 
   useEffect(() => {
-    setDraft({ title: node.title, description: node.description, cost: node.cost });
-    setEditing(false);
-  }, [node.id]);
+    startTransition(() => {
+      setDraft({ title: node.title, description: node.description, cost: node.cost });
+      setEditing(false);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [node.id]); // intentional: reset only when the selected node changes
 
   return (
     <AnimatePresence>

@@ -374,8 +374,8 @@ export default function LandingPage() {
                     Multiple Path Options
                   </h3>
                   <p style={{ fontSize: 14, lineHeight: 1.7, color: "#9a8ca2" }}>
-                    Pivot with confidence. Our system generates 'Plan B' and 'Plan C' scenarios so
-                    you're never stranded in a shifting economy.
+                    Pivot with confidence. Our system generates &lsquo;Plan B&rsquo; and &lsquo;Plan C&rsquo; scenarios so
+                    you&apos;re never stranded in a shifting economy.
                   </p>
                 </FeatureCard>
               </motion.div>

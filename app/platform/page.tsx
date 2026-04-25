@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Download, AlertCircle, Loader2, LayoutDashboard,
-  ChevronLeft, Sun, Moon, Sparkles,
+  ChevronLeft, Sun, Moon,
 } from "lucide-react";
 import Link from "next/link";
 import InputForm from "@/components/ui/InputForm";

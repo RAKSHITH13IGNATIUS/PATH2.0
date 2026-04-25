@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, startTransition } from "react";
 import { motion } from "framer-motion";
 import { X, Edit3, Save, GitBranch, ExternalLink, IndianRupee, Award, Trash2, Plus } from "lucide-react";
 import { PathNode, College } from "@/services/api";
@@ -34,10 +34,13 @@ export default function NodeDetailPanel({ node, onClose, onEdit, onSave, onBranc
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
-    setDraft({ title: node.title, description: node.description, cost: node.cost, eligibility: node.eligibility });
-    setShowBranchSuggestions(false);
-    setConfirmDelete(false);
-  }, [node.id]);
+    startTransition(() => {
+      setDraft({ title: node.title, description: node.description, cost: node.cost, eligibility: node.eligibility });
+      setShowBranchSuggestions(false);
+      setConfirmDelete(false);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [node.id]); // intentional: reset only when the selected node changes
 
   const handleSave = () => onSave(node.id, draft);
   const suggestions = BRANCH_SUGGESTIONS[node.type] ?? [];
