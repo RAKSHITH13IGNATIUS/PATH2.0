@@ -42,6 +42,7 @@ next-env.d.ts
 !public/expo2.mp4
 
 # Python
+**/__pycache__/
 __pycache__/
 *.py[cod]
 *$py.class
