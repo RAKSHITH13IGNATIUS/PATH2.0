@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,15 +8,21 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "P.A.T.H. — Personalized Academic & Career Trajectory Hub",
+  title: "P.A.T.H. | Precision Career Navigation",
   description:
-    "Discover your ideal college and career path in Karnataka with rule-based AI guidance. No guesswork — just data.",
+    "Discover structured career paths tailored to your unique skills, ambitions, and goals. Precision-guided clarity for the modern professional.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}>
       <body>{children}</body>
     </html>
   );
